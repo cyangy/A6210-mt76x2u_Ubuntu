@@ -18,11 +18,12 @@ LINUX_SRC_MODULE = /lib/modules/$(shell uname -r)/kernel/drivers/net/wireless
 CROSS_COMPILE =
 
 #mt76x2u_testing
-src=src
-src_version=mt76x2u
+SRC=src
+BRANCH=mt76x2u
+COMMIT=7d0da428fbf605040063824471f7fd4ece2ce2d7
 ROOT_DIR=$(shell pwd)
 PATCH_DIR=$(ROOT_DIR)/patches
-SRC_DIR=$(ROOT_DIR)/$(src)
+SRC_DIR=$(ROOT_DIR)/$(SRC)
 
 MAKE_OPTS =EXTRA_CFLAGS+="-I$(SRC_DIR)"
 
@@ -70,7 +71,10 @@ uninstall:
 
 getsrc:
 	if [ ! -d "$(SRC_DIR)" ]; then \
-	   git clone -b $(src_version)  https://github.com/LorenzoBianconi/mt76.git $(src) ;\
+	   git clone -b $(BRANCH)  https://github.com/LorenzoBianconi/mt76.git $(SRC) ;\
+	   cd  $(SRC) ;\
+	   git checkout $(COMMIT) ;\
+	   cd - ;\
 	fi
 
 patch_apply: getsrc
